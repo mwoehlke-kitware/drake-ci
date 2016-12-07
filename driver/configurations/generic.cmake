@@ -71,16 +71,19 @@ execute_step(common report-configuration)
 
 # Build the pre-drake superbuild
 execute_step(generic pre-drake)
+log_value(DASHBOARD_SUPERBUILD_FAILURE "After PRE-DRAKE")
 
 if(DASHBOARD_SUPERBUILD_FAILURE)
   notice("CTest Status: NOT CONTINUING BECAUSE SUPERBUILD (PRE-DRAKE) WAS NOT SUCCESSFUL")
 else()
   # Now start the actual drake build
   execute_step(generic drake)
+  log_value(DASHBOARD_FAILURE "After DRAKE")
 
   if(NOT DASHBOARD_FAILURE)
     # Build the post-drake superbuild
     execute_step(generic post-drake)
+    log_value(DASHBOARD_FAILURE "After POST-DRAKE")
   endif()
 endif()
 
